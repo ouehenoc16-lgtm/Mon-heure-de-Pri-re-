@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Heure de Prière — Eagle Message Tabernacle</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f3e8;
+      color: #17233c;
+      text-align: center;
+    }
+
+    header {
+      background: #17233c;
+      color: white;
+      padding: 30px 20px;
+    }
+
+    .logo {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    .church {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 35px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .draw {
+      background: #c89b3c;
+      color: white;
+    }
+
+    .whatsapp {
+      background: #25D366;
+      color: white;
+    }
+
+    .again {
+      background: #17233c;
+      color: white;
+    }
+
+    #result {
+      display: none;
+      margin-top: 30px;
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .hour {
+      font-size: 48px;
+      font-weight: bold;
+      color: #c89b3c;
+      margin: 20px 0;
+    }
+
+    .verse {
+      background: #f7f3e8;
+      padding: 20px;
+      border-radius: 14px;
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+
+    .blessing {
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 25px;
+      background: #17233c;
+      color: white;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .hour {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🦅</div>
+    <div class="church">EAGLE MESSAGE TABERNACLE</div>
+  </header>
+
+  <main>
+
+    <h1>🙏 Mon Heure de Prière</h1>
+
+    <p class="intro">
+      Un moment choisi pour prendre un temps avec Dieu.
+      Chaque heure peut être tirée librement.
+    </p>
+
+    <input
+      type="text"
+      id="name"
+      placeholder="Ton prénom"
+    >
+
+    <button class="draw" onclick="tirerHeure()">
+      🎲 Tirer mon heure
+    </button>
+
+    <div id="result">
+
+      <p id="greeting"></p>
+
+      <h2>Ton heure de prière</h2>
+
+      <div class="hour" id="hour"></div>
+
+      <div class="verse">
+        <strong>📖 Parole pour ton moment de prière</strong>
+        <p id="verse"></p>
+      </div>
+
+      <p class="blessing">
+        Que Dieu te bénisse dans ce moment de prière. 🙏
+      </p>
+
+      <button class="whatsapp" onclick="partagerWhatsApp()">
+        📲 Partager sur WhatsApp
+      </button>
+
+      <button class="again" onclick="nouveauTirage()">
+        🎲 Tirer une autre heure
+      </button>
+
+    </div>
+
+  </main>
+
+  <footer>
+    « Priez sans cesse. » — 1 Thessaloniciens 5:17
+    <br><br>
+    Eagle Message Tabernacle
+  </footer>
+
+  <script>
+
+    const heures = [];
+
+    for (let i = 0; i < 24; i++) {
+      heures.push(String(i).padStart(2, "0") + "h00");
+    }
+
+    const versets = [
+      "1 Thessaloniciens 5:17 — « Priez sans cesse. »",
+      "Jérémie 33:3 — « Invoque-moi, et je te répondrai. »",
+      "Matthieu 7:7 — « Demandez, et l’on vous donnera. »",
+      "Philippiens 4:6 — « Ne vous inquiétez de rien ; mais en toute chose faites connaître vos besoins à Dieu. »",
+      "Jacques 5:16 — « La prière fervente du juste a une grande efficacité. »",
+      "Luc 18:1 — « Il faut toujours prier, et ne point se relâcher. »",
+      "Romains 12:12 — « Persévérez dans la prière. »",
+      "Colossiens 4:2 — « Persévérez dans la prière, veillez-y avec actions de grâces. »",
+      "Ésaïe 41:10 — « Ne crains rien, car je suis avec toi. »",
+      "Psaume 145:18 — « L’Éternel est près de tous ceux qui l’invoquent. »",
+      "Psaume 50:15 — « Invoque-moi au jour de la détresse ; je te délivrerai. »",
+      "Éphésiens 6:18 — « Faites en tout temps par l’Esprit toutes sortes de prières. »"
+    ];
+
+    let dernierMessage = "";
+
+    function tirerHeure() {
+
+      const name = document.getElementById("name").value.trim();
+
+      if (name === "") {
+        alert("Entre ton prénom avant de tirer ton heure.");
+        return;
+      }
+
+      const heure = heures[Math.floor(Math.random() * heures.length)];
+      const verset = versets[Math.floor(Math.random() * versets.length)];
+
+      document.getElementById("greeting").textContent =
+        "Que Dieu te bénisse, " + name + " 🙏";
+
+      document.getElementById("hour").textContent = heure;
+      document.getElementById("verse").textContent = verset;
+
+      document.getElementById("result").style.display = "block";
+
+      dernierMessage =
+        "🙏 Mon Heure de Prière — Eagle Message Tabernacle\n\n" +
+        "Bonjour " + name + " !\n" +
+        "Mon heure de prière : " + heure + "\n\n" +
+        "📖 " + verset + "\n\n" +
+        "Que Dieu me bénisse dans ce moment de prière. 🙏";
+
+      window.scrollTo({
+        top: document.getElementById("result").offsetTop,
+        behavior: "smooth"
+      });
+    }
+
+    function partagerWhatsApp() {
+
+      const url =
+        "https://wa.me/?text=" +
+        encodeURIComponent(dernierMessage);
+
+      window.open(url, "_blank");
+    }
+
+    function nouveauTirage() {
+
+      document.getElementById("result").style.display = "none";
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+  </script>
+
+</body>
+</html>
